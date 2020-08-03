@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Take Screenshot by Javascript</title>
+    <style>
+        .container {
+            text-align: center;
+            background-color: #35566d;
+            border-radius: 7px;
+            color: #FFF;
+            font-family: cursive, 'arial';
+            font-weight: 900;
+/*            width: 1000px;*/
+            margin: 100px auto;
+            height: 300px;
+            line-height: 300px;
+        }
+        .btn {
+            text-align: center;
+        }
+        button {
+            border: none;
+            border-radius: 3px;
+            font-size: 1.1em;
+            display: inline-block;
+            padding: 1rem 2rem;
+            vertical-align: middle;
+            -webkit-tap-highlight-color: transparent;
+            background-color: #099b8e;
+            color: #FFF;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #1db2a3;
+            box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        
+        <h1 contenteditable="true">Click Download In Down</h1>
+        
+    </div>
+    
+    <div class="btn">
+        <button onclick="takeScreenShot()">Download Image</button>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+    <script>
+        var heightImg = document.querySelector(".container").clientHeight,
+            widthImg  = document.querySelector(".container").clientWidth;
+        var takeScreenShot = function () {
+            html2canvas(document.querySelector(".container"), {
+                onrendered: function (canvas) {
+                    var tempcanvas = document.createElement('canvas');
+                    var context = tempcanvas.getContext('2d');
+                    tempcanvas.width = widthImg;
+                    tempcanvas.height = heightImg;
+                    context.drawImage(canvas, 0, 0, widthImg, heightImg);
+                    var link = document.createElement("a");
+                    link.href = tempcanvas.toDataURL('image/jpg');   //function blocks CORS
+                    link.download = 'screenshot.jpg';
+                    link.click();
+                }
+            });
+        };
+    </script>
+</body>
+</html>
